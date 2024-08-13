@@ -1,0 +1,114 @@
+# classe mae contato armazena os atributos do contato
+# classe agenda armazena todos os contatos
+class Contato:
+    def __init__(self, nome, telefone, email):
+        self.__nome = nome
+        self.__telefone = telefone
+        self.__email = email
+        self.__favorito = False
+        
+    def get_nome(self):
+        return self.__nome
+    
+    def get_telefone(self):
+        return self.__telefone
+    
+    def get_email(self):
+        return self.__email
+    
+    def is_favorito(self):
+        return self.__favorito
+    
+    def set_favorito(self, favorito):
+        self.__favorito = favorito
+    
+    def set_nome(self, nome):
+        self.__nome = nome
+        
+    def set_telefone(self, telefone):
+        self.__telefone = telefone
+        
+    def set_email(self, email):
+        self.__email = email
+    
+    def exibir_contato(self):
+        return f"Nome do contato: {self.get_nome()}\nTelefone: {self.get_telefone()}\nEmail: {self.get_email()}"
+    
+    
+        
+class Agenda:
+    
+    
+    def __init__(self):
+        self.contatos = []
+    
+        
+    def adicionar_contato(self, nome, telefone, email):
+        contato = Contato(nome, telefone, email)
+        self.contatos.append(contato)
+        print(f"Contato {contato.get_nome()} adicionado com sucesso!")
+        
+    def editar_contato(self, nome, novo_nome=None, novo_telefone=None, novo_email=None):
+        for contato in self.contatos:
+            if contato.get_nome() == nome:
+                if novo_nome:
+                    contato.set_nome(novo_nome)
+                if novo_telefone:
+                    contato.set_telefone(novo_telefone)
+                if novo_email:
+                    contato.set_email(novo_email)
+                print(f"Contato {contato.get_nome()} editado com sucesso!")
+                return
+        print(f"Contato não encontrado!")
+        
+    def excluir_contato(self, nome):
+        for contato in self.contatos:
+            if contato.get_nome() == nome:
+                self.contatos.remove(contato)
+                print(f"Contato {contato.nome()} excluído com sucesso!")
+                return
+        print(f"Contato {contato.get_nome()} não encontrado!")
+        
+    def favoritar_contato(self, nome):
+        for contato in self.contatos:
+            if contato.get_nome() == nome:
+                contato.set_favorito(True)
+                print(f"Contato {contato.get_nome()} favoritado com sucesso!")
+                return
+        print(f"Contato não encontrado!")
+        
+    def listar_contatos(self):
+        if not self.contatos:
+            print("Nenhum contato na agenda.")
+        else:
+            for contato in self.contatos:
+                print(contato.exibir_contato())
+                
+    def listar_favoritos(self):
+        favoritos = [contato for contato in self.contatos if contato.is_favorito()]
+        if not favoritos:
+            print("Nenhum contato favorito.")
+        else:
+            for contato in favoritos:
+                print(contato.exibir_contato())
+            
+    def desfavoritar(self, nome):
+        for contato in self.contatos:
+            if contato.get_nome() == nome and contato.is_favorito():
+                contato.set_favorito(False)
+                print(f"Contato desfavoritado com sucesso!")
+                return
+        print("Contato não encontrado ou não favoritado!")
+            
+                
+                
+                
+agenda = Agenda()
+agenda.adicionar_contato("Luiza", "51986743", "luizaaa@gmail.com")
+agenda.adicionar_contato("Giovana", "518885555", "giovanabanana@hotmail.com")
+agenda.adicionar_contato("Matheus", "5166664433", "teteu@gmail.com")
+agenda.listar_contatos()
+agenda.favoritar_contato("Matheus")
+agenda.listar_favoritos()
+agenda.desfavoritar("Matheus")
+agenda.listar_favoritos()
