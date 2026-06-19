@@ -59,7 +59,7 @@ class Agenda:
                     contato.set_email(novo_email)
                 print(f"Contato {contato.get_nome()} editado com sucesso!")
                 return
-        print(f"Contato não encontrado!")
+        print("Contato não encontrado!")
         
     def excluir_contato(self, nome):
         for contato in self.contatos:
@@ -67,7 +67,7 @@ class Agenda:
                 self.contatos.remove(contato)
                 print(f"Contato {contato.nome()} excluído com sucesso!")
                 return
-        print(f"Contato {contato.get_nome()} não encontrado!")
+        print("Contato não encontrado!")
         
     def favoritar_contato(self, nome):
         for contato in self.contatos:
@@ -75,7 +75,7 @@ class Agenda:
                 contato.set_favorito(True)
                 print(f"Contato {contato.get_nome()} favoritado com sucesso!")
                 return
-        print(f"Contato não encontrado!")
+        print("Contato não encontrado!")
         
     def listar_contatos(self):
         if not self.contatos:
@@ -96,19 +96,8 @@ class Agenda:
         for contato in self.contatos:
             if contato.get_nome() == nome and contato.is_favorito():
                 contato.set_favorito(False)
-                print(f"Contato desfavoritado com sucesso!")
+                print("Contato desfavoritado com sucesso!")
                 return
         print("Contato não encontrado ou não favoritado!")
             
                 
-                
-                
-agenda = Agenda()
-agenda.adicionar_contato("Luiza", "51986743", "luizaaa@gmail.com")
-agenda.adicionar_contato("Giovana", "518885555", "giovanabanana@hotmail.com")
-agenda.adicionar_contato("Matheus", "5166664433", "teteu@gmail.com")
-agenda.listar_contatos()
-agenda.favoritar_contato("Matheus")
-agenda.listar_favoritos()
-agenda.desfavoritar("Matheus")
-agenda.listar_favoritos()
