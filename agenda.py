@@ -1,52 +1,50 @@
-# classe mae contato armazena os atributos do contato
-# classe agenda armazena todos os contatos
-class Contato:
-    def __init__(self, nome, telefone, email):
-        self.__nome = nome
-        self.__telefone = telefone
-        self.__email = email
-        self.__favorito = False
+import pandas as pd
+from contato import Contato
+
+class Agenda():
+    
+    
+    def __init__(self, arquivo_csv):
+        self.arquivo_csv = arquivo_csv
+        self.contatos = self._carregar()
         
-    def get_nome(self):
-        return self.__nome
-    
-    def get_telefone(self):
-        return self.__telefone
-    
-    def get_email(self):
-        return self.__email
-    
-    def is_favorito(self):
-        return self.__favorito
-    
-    def set_favorito(self, favorito):
-        self.__favorito = favorito
-    
-    def set_nome(self, nome):
-        self.__nome = nome
+    def _carregar(self):
+        try:
+            df = pd.read_csv(self.arquivo_csv)
+            return [
+                Contato(
+                    row["nome"],
+                    row["telefone"],
+                    row["email"],
+                    row["favorito"]
+                )
+                for _, row in df.iterrows()
+            ]
+        except FileNotFoundError:
+            return []
+            
+    def salvar(self):
         
-    def set_telefone(self, telefone):
-        self.__telefone = telefone
+        df = pd.DataFrame([
+            {
+                "nome": contato.get_nome(),
+                "telefone": contato.get_telefone(),
+                "email": contato.get_email(),
+                "favorito": contato.is_favorito()
+            }
+            for contato in self.contatos
+        ])
+        df.to_csv(self.arquivo_csv, index=False)
         
-    def set_email(self, email):
-        self.__email = email
-    
-    def exibir_contato(self):
-        return f"Nome do contato: {self.get_nome()}\nTelefone: {self.get_telefone()}\nEmail: {self.get_email()}"
-    
-    
+    def adicionar_contato(self, nome, telefone, email, favorito):
         
-class Agenda:
-    
-    
-    def __init__(self):
-        self.contatos = []
-    
-        
-    def adicionar_contato(self, nome, telefone, email):
-        contato = Contato(nome, telefone, email)
+        contato = Contato(nome, telefone, email, favorito)
         self.contatos.append(contato)
+        self.salvar()
+        
         print(f"Contato {contato.get_nome()} adicionado com sucesso!")
+        
+        
         
     def editar_contato(self, nome, novo_nome=None, novo_telefone=None, novo_email=None):
         for contato in self.contatos:
@@ -57,25 +55,32 @@ class Agenda:
                     contato.set_telefone(novo_telefone)
                 if novo_email:
                     contato.set_email(novo_email)
+                self.salvar()
                 print(f"Contato {contato.get_nome()} editado com sucesso!")
                 return
         print("Contato não encontrado!")
         
+        
     def excluir_contato(self, nome):
         for contato in self.contatos:
             if contato.get_nome() == nome:
+                excluido = contato
                 self.contatos.remove(contato)
-                print(f"Contato {contato.nome()} excluído com sucesso!")
+                print(f"Contato {excluido.get_nome()} excluído com sucesso!")
+                self.salvar()
                 return
         print("Contato não encontrado!")
+        
         
     def favoritar_contato(self, nome):
         for contato in self.contatos:
             if contato.get_nome() == nome:
                 contato.set_favorito(True)
+                self.salvar()
                 print(f"Contato {contato.get_nome()} favoritado com sucesso!")
                 return
         print("Contato não encontrado!")
+        
         
     def listar_contatos(self):
         if not self.contatos:
@@ -83,6 +88,7 @@ class Agenda:
         else:
             for contato in self.contatos:
                 print(contato.exibir_contato())
+                
                 
     def listar_favoritos(self):
         favoritos = [contato for contato in self.contatos if contato.is_favorito()]
@@ -92,12 +98,12 @@ class Agenda:
             for contato in favoritos:
                 print(contato.exibir_contato())
             
+            
     def desfavoritar(self, nome):
         for contato in self.contatos:
             if contato.get_nome() == nome and contato.is_favorito():
                 contato.set_favorito(False)
                 print("Contato desfavoritado com sucesso!")
+                self.salvar()
                 return
         print("Contato não encontrado ou não favoritado!")
-            
-                

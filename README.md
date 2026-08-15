@@ -6,7 +6,7 @@ Projeto desenvolvido em Python utilizando Programação Orientada a Objetos para
 
 Esta aplicação simula uma agenda telefônica que permite cadastrar, editar, remover e gerenciar contatos.
 
-O projeto foi desenvolvido com o objetivo de praticar conceitos de Programação Orientada a Objetos, encapsulamento, composição entre classes e manipulação de listas em Python.
+O projeto foi desenvolvido com o objetivo de praticar conceitos de Programação Orientada a Objetos, encapsulamento, classes e manipulação de arquivos com Python.
 
 ## Funcionalidades
 
